@@ -34,9 +34,10 @@ LEFT JOIN orderdetails b on b.ordernumber = a.ordernumber;
 SELECT
 a.ordernumber,
 a.status,
-b.quantityordered * b.priceeach AS order_total
+SUM(b.quantityordered * b.priceeach) AS order_total
 FROM orders a
-LEFT JOIN orderdetails b on b.ordernumber = a.ordernumber;
+INNER JOIN orderdetails b on b.ordernumber = a.ordernumber
+GROUP BY a.ordernumber, a.status;
 
 -- exercise 3:
 SELECT
