@@ -1,0 +1,16 @@
+{"cooking":[{"title_en":"Everyday Italian",
+	     "authors":["Giada De Laurentiis"],
+	     "year":2005,
+	     "price":30,
+	     "available":true}],
+"children":[{"title_en":"Harry Potter",
+	     "authors":["J K. Rowling"],
+	     "price":29.99,
+	     "available":false}],
+"data":[{"title_en":"The Data Warehouse Toolkit",
+	 "title_hu":"Adattárház eszközök",
+	 "authors":["Ralph Kimball","Margy Ross"],
+	 "year":2002,
+	 "prince":87,
+	 "available":true}]
+}
