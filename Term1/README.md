@@ -6,7 +6,7 @@
 ## Description of Data Set
 ...
 
-![db_model_overview](db_model/db_model_overview.PNG)
+![db_model_overview](db_model/db_model_overview.PNG){:height="300" width="400"}
 
 Current date: 2018-01-01
 
