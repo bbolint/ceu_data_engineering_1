@@ -1,4 +1,4 @@
-# Term 1 Assignment for Data Engineering 1: SQL and Different Shapes of Data
+# Term 1 Assignment - Eagle Bank Database
 
 ## Overview of Project
 ...
@@ -28,24 +28,18 @@ Clients can have 3 general types of products:
 	- Purpose: Car, Debt Consolidation, Home Improvement, Home
 
 
-## Questions of Interest by Management:
-- Overview of loan portfolio over time (per quarter), with projections for the future
-- Overview of sales over time per district (per quarter)
-- Current 
+## Interests of Management and Corresponding Data Markt Assets
+### Interest 1: Overview of loan portfolio over time (per quarter), with projections for the future
+### Data Markt Asset 1:
 
-- How are clients distributed within different business-relevant age groups, what their product penetration rates are, and how profitable (based on paid loan interest) they are.
-- How did product penetration and profitability change over time?
-- Management is interesten in where our clients transact the most to
-
-- where are our clients distributed?
-- where do our clients transact most to? (orders)
-- what was our income from loans in the past x years?
+### Interest 2: Overview of sales over time per district (per quarter)
+### Data Martk Asset 2:
 
 ## Results
 ...
 
 
-## How to Reproduce the Data & Analysis
+## How to Reproduce the Project
 ### Important notes
 
 ## Data Source
