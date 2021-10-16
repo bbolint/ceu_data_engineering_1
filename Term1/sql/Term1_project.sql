@@ -1,4 +1,4 @@
--- Step 1: Creating new database with raw .csv files:
+-- Step 1: Creating new database with raw .csv files (Operational Layer):
 -- Step 1.1: Creating schema:
 DROP SCHEMA IF EXISTS eagle_bank_db;
 CREATE SCHEMA eagle_bank_db;
@@ -225,7 +225,16 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (order_id, account_id, bank_to, account_to, amount, k_symbol);
 
--- Step 2:
+-- Step 2: Creating analytical data layer to answer questions of interest
+SELECT 
+"account" product,
+account_id product_id, 
+district_id, 
+"account", 
+frequency AS "product_group",
+CONCAT(purchase_year,"-", QUARTER(purchase_date)) purchase_quarter
+FROM accounts;
 
+SELECT * FROM cards;
 
 

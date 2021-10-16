@@ -6,7 +6,35 @@
 ## Description of Data Set
 ...
 
-## Research Questions
+![Alt text](/db_model/db_model_overview.png?raw=true "Database Model of Eagle Bank Operational Layer")
+
+Current date: 2018-01-01
+
+Clients can have 3 general types of products:
+
+- Accounts
+	- Monthly issuance
+	- Issuance after transaction
+	- Weekly issuance
+- Cards
+	- VISA Signature
+	- VISA Standard
+	- VISA Infinite
+- Loans
+	- Duration: 12, 24, 36, 48, 60 months
+	- Status: A, B, C, D
+	- Purpose: Car, Debt Consolidation, Home Improvement, Home
+
+
+## Questions of Interest by Management:
+- Overview of loan portfolio over time (per quarter), with projections for the future
+- Overview of sales over time per district (per quarter)
+- Current 
+
+- How are clients distributed within different business-relevant age groups, what their product penetration rates are, and how profitable (based on paid loan interest) they are.
+- How did product penetration and profitability change over time?
+- Management is interesten in where our clients transact the most to
+
 - where are our clients distributed?
 - where do our clients transact most to? (orders)
 - what was our income from loans in the past x years?
@@ -38,7 +66,11 @@ Restart your mysql service. Or as alternative you can copy files to approved dir
 
 
 
+
 Notes / can improve:
 - relative path to raw data files
 - have to come up with better namings for dates (not all dates can be expiry)... especially for loans it doesn't make sense (it doesn't add up for duration + year to be 
 duration of loan + expiry date of loan.)
+- how to ETL to data markts: create materialized views for 1 of the data markt with most complex data & longest query time
+
+
