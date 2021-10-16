@@ -6,7 +6,9 @@
 ## Description of Data Set
 ...
 
-![db_model_overview](db_model/db_model_overview.PNG){ width: 200px; }
+
+<img src="db_model/db_model_overview.PNG" alt="Eagle Bank Database: Overview of Operational Layer" width="200"/>
+
 
 Current date: 2018-01-01
 
