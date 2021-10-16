@@ -6,7 +6,7 @@
 ## Description of Data Set
 ...
 
-![Alt text](db_model/db_model_overview.png?raw=true "Database Model of Eagle Bank Operational Layer")
+![Alt text](db_model/db_model_overview.png "Database Model of Eagle Bank Operational Layer")
 
 Current date: 2018-01-01
 
