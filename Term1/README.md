@@ -6,10 +6,7 @@
 ## Description of Data Set
 ...
 
-![db_model_overview](db_model/db_model_overview.png)
-
-![db_model_overview](https://user-images.githubusercontent.com/34324143/137600497-cc7bd5ae-c6e9-4f6d-a480-4fc02505a141.PNG)
-
+![db_model_overview](db_model/db_model_overview.PNG)
 
 Current date: 2018-01-01
 
