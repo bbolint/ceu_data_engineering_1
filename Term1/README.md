@@ -19,7 +19,7 @@ The database created for this project consists of three main parts:
 
 #### Model
 <p align="center">
-	<img src="db_model/db_model_overview_2.png" alt="Eagle Bank Database: Overview of Operational Layer" width="800"/>
+	<img src="db_model/db_model_overview_3.png" alt="Eagle Bank Database: Overview of Operational Layer" width="800"/>
 </p>
 
 #### Side note about products
