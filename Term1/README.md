@@ -4,7 +4,7 @@
 The goal of this project was to build a database with three layers (operational layer, data warehouse, data marts) on a real-life dataset. I chose the Eagle Bank relational database, an actual banking database available on data.world for this task:
 https://data.world/lpetrocelli/retail-banking-demo-data
 
-The dataset contains 12 tables, out of which I skipped the ones that were either not needed for the assignment, or were too large to upload to github (this was the case with the `completedtrans.csv` file. The tables I left for the term project can be seen in the data model below.
+The dataset contains 12 tables, out of which I skipped the ones that were either not needed for the assignment, or were too large to upload to github (this was the case with the `completedtrans.csv` file). The tables I left for the term project can be seen in the data model below.
 
 Note: The fictional current time for this project is 2018-01-01. This is because the dataset is a couple of years old and this current time made sense considering the data when looking at time series.
 
