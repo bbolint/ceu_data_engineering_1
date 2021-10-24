@@ -1,4 +1,4 @@
-# Term 1 Assignment for Data Engineering 1: SQL and Different Shapes of Data
+# Term 1 Assignment - Eagle Bank Database
 
 ## Overview of Project
 ...
@@ -6,7 +6,9 @@
 ## Description of Data Set
 ...
 
-![Alt text](/db_model/db_model_overview.png?raw=true "Database Model of Eagle Bank Operational Layer")
+<p align="center">
+	<img src="db_model/db_model_overview.PNG" alt="Eagle Bank Database: Overview of Operational Layer" width="800"/>
+</p>
 
 Current date: 2018-01-01
 
@@ -26,51 +28,27 @@ Clients can have 3 general types of products:
 	- Purpose: Car, Debt Consolidation, Home Improvement, Home
 
 
-## Questions of Interest by Management:
-- Overview of loan portfolio over time (per quarter), with projections for the future
-- Overview of sales over time per district (per quarter)
-- Current 
+## Data Marts to Answer Key Points of Management Interest
 
-- How are clients distributed within different business-relevant age groups, what their product penetration rates are, and how profitable (based on paid loan interest) they are.
-- How did product penetration and profitability change over time?
-- Management is interesten in where our clients transact the most to
+### Data Mart 1: Overview of loan portfolio over time (per quarter), with projections for the future
+_*Created as view*_
 
-- where are our clients distributed?
-- where do our clients transact most to? (orders)
-- what was our income from loans in the past x years?
+- Fields
+- Source Tables
+- Aggregations
+_*picture*_
 
-## Results
-...
+### Data Mart 2: Overview of sales over time per district (per quarter)
+_*Created as materialized view*_
 
+- Fields
+- Source Tables
+- Aggregations
+_*picture*_
 
-## How to Reproduce the Data & Analysis
-### Important notes
+## How to Reproduce the Project
 
-## Data Source
-
-
-## Operational Layer
-Note:s ecure-file-priv has to be disabled in MySQL before running the script. To achieve this, go to your MySQL directiory (e.g. C:\ProgramData\MySQL\MySQL Server 8.0\),
-where you will find the my.ini file. Open the file in text editor (you may need admin privileges to do this), and set the secure-file-priv parameter to "" (secure-file-priv="").
-Restart your mysql service. Or as alternative you can copy files to approved directory by MySQL WorkBench.
-
-...
-
-## Analytical Layer
-...
-
-## Data Markts as Inputs to Visualization Tools
-...
-
-
-
-
-
-
-Notes / can improve:
-- relative path to raw data files
-- have to come up with better namings for dates (not all dates can be expiry)... especially for loans it doesn't make sense (it doesn't add up for duration + year to be 
-duration of loan + expiry date of loan.)
-- how to ETL to data markts: create materialized views for 1 of the data markt with most complex data & longest query time
-
+1. Software: MySQL, MySQL WorkBench, Git
+2. Creating Operational Layer: The source files need to be copied to the upload folder within MySQL software folder
+3. Creating Data Marts: Data Marts should be automatically created by running the attached .SQL script
 
