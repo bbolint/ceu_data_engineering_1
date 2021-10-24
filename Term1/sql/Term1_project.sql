@@ -34,7 +34,7 @@ CREATE TABLE clients
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\raw_data\\completedclient.csv' 
 INTO TABLE clients 
 FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES
 (client_id, sex, fulldate, day, 
 month, year, age, 
@@ -73,7 +73,7 @@ CREATE TABLE disposition
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\raw_data\\completeddisposition.csv' 
 INTO TABLE disposition 
 FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES
 (disp_id, client_id, account_id, type);
 
@@ -97,7 +97,7 @@ CREATE TABLE cards
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\raw_data\\completedcard.csv' 
 INTO TABLE cards 
 FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES
 (card_id, disp_id, type, year, month, day, fulldate);
 
@@ -129,7 +129,7 @@ CREATE TABLE accounts
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\raw_data\\completedacct.csv' 
 INTO TABLE accounts 
 FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES
 (account_id, district_id, frequency, parseddate, year, month, day);
 
@@ -166,7 +166,7 @@ CREATE TABLE loans
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\raw_data\\completedloan.csv' 
 INTO TABLE loans 
 FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES
 (loan_id, account_id, amount, duration, payments, status, year, month, day, fulldate, location, purpose);
 
@@ -197,7 +197,7 @@ CREATE TABLE districts
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\raw_data\\completeddistrict.csv' 
 INTO TABLE districts 
 FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES
 (district_id, city, state_name, state_abbrev, region, division);
 
@@ -221,20 +221,156 @@ CREATE TABLE orders
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\raw_data\\completedorder.csv' 
 INTO TABLE orders 
 FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES
 (order_id, account_id, bank_to, account_to, amount, k_symbol);
 
 -- Step 2: Creating analytical data layer to answer questions of interest
+-- 2.1: Loan portfolio
+-- 2.1.1: Creating table for overview of loan portfolio over time (per month, long table format). Fields: quarter, category, no_loans_active, sum_payments
+-- creating table to store list of dates between first loan purchase and current date (2018-01-01):
+DROP TABLE IF EXISTS loan_timeline;
+CREATE TABLE loan_timeline
+(
+	date_loan_timeline DATE
+);
+-- creating procedure to calculate list of dates between first loan purchase and current date (2018-01-01):
+DROP PROCEDURE IF EXISTS filldates;
+DELIMITER $$
+CREATE PROCEDURE filldates(dateEnd DATE)
+BEGIN
+    DECLARE dateStart DATE;
+	DECLARE adate DATE;
+    SET dateStart = (SELECT MIN(purchase_date) FROM loans);
+	WHILE dateStart <= dateEnd DO
+		SET adate = (SELECT date_loan_timeline FROM loan_timeline WHERE date_loan_timeline = dateStart);
+		IF adate IS NULL THEN BEGIN
+			INSERT INTO loan_timeline (date_loan_timeline) VALUES (dateStart);
+		END; END IF;
+		SET dateStart = date_add(dateStart, INTERVAL 1 DAY);
+	END WHILE;
+END;$$
+DELIMITER ;
+-- populating loan_timeline table with list of dates between first loan purchase and current date (2018-01-01):
+CALL filldates('2018-01-01'); -- needs current date as input. as this is now the fictional 2018-01-01, I have to pass this manually
+-- sanity check for list of dates between first loan purchase and current date (2018-01-01):
+SELECT min(date_loan_timeline), max(date_loan_timeline) FROM loan_timeline;
+
+-- listing for each date the active loans and aggregating per month and loan purpose:
+DROP TABLE IF EXISTS loan_portfolio_per_month;
+CREATE TABLE loan_portfolio_per_month AS
 SELECT 
-"account" product,
-account_id product_id, 
-district_id, 
-"account", 
-frequency AS "product_group",
-CONCAT(purchase_year,"-", QUARTER(purchase_date)) purchase_quarter
-FROM accounts;
+month,
+purpose,
+COUNT(loan_id) count_loans,
+SUM(payments) sum_payments
+FROM
+(
+	SELECT
+	DISTINCT
+	DATE_FORMAT(date_loan_timeline,'%Y-%m-01') month,
+	loan_id,
+	purpose,
+	payments
+	FROM
+	(
+		SELECT
+		a.date_loan_timeline,
+		b.purchase_date,
+		b.end_date,
+		b.loan_id,
+		b.purpose,
+		b.payments
+		FROM loan_timeline a
+		LEFT JOIN 
+		(
+			SELECT
+			loan_id,
+			purchase_date,
+			DATE_ADD("2017-06-15", INTERVAL duration MONTH) end_date,
+			purpose,
+			payments
+			FROM loans
+		) b ON a.date_loan_timeline BETWEEN b.purchase_date AND b.end_date
+	) monthly
+) monthly_agg 
+GROUP BY month, purpose;
+-- check table:
+SELECT * FROM loan_portfolio_per_month;
 
-SELECT * FROM loans;
+-- 2.1.2: Creating view for loan portfolio over time (per quarter, wide table). 
+-- Fields: quarter, car_no_loans_active, car_sum_payments, debt_cons_no_loans_active, debt_cons_sum_payments, 
+-- home_impr_no_loans_active, home_impr_sum_payments, home_no_loans_active, home_sum_payments
+DROP VIEW IF EXISTS loan_portfolio_report;
+CREATE VIEW loan_portfolio_report AS
+SELECT
+CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)) quarter,
+ROUND(SUM(CASE WHEN purpose = 'car' THEN count_loans END)/4) AS car_avg_no_loans_active_per_month,
+SUM(CASE WHEN purpose = 'car' THEN sum_payments END) AS car_sum_payments,
+ROUND(SUM(CASE WHEN purpose = 'debt_consolidation' THEN count_loans END)/4) AS debt_cons_avg_no_loans_active_per_month,
+SUM(CASE WHEN purpose = 'debt_consolidation' THEN sum_payments END) AS debt_cons_sum_payments,
+ROUND(SUM(CASE WHEN purpose = 'home_improvement' THEN count_loans END)/4) AS home_impr_avg_no_loans_active_per_month,
+SUM(CASE WHEN purpose = 'home_improvement' THEN sum_payments END) AS home_impr_sum_payments,
+ROUND(SUM(CASE WHEN purpose = 'home' THEN count_loans END)/4) AS home_avg_no_loans_active_per_month,
+SUM(CASE WHEN purpose = 'home' THEN sum_payments END) AS home_sum_payments
+FROM loan_portfolio_per_month
+GROUP BY CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month));
+-- check view:
+SELECT * FROM loan_portfolio_report;
 
+-- 2.1: Overview of sales over time per district. Fields: quarter, location, category, no_loans_active, sum_payments
+-- 2.1.1.: create DW table sales_per_quarter (long table):
+DROP TABLE IF EXISTS sales_per_quarter;
+CREATE TABLE sales_per_quarter AS
+SELECT
+"accounts" product_cat,
+frequency product_sub_cat,
+CONCAT(purchase_year,'-',QUARTER(purchase_date)) quarter,
+district_id,
+COUNT(*) no_sales
+FROM accounts
+GROUP BY CONCAT(purchase_year,'-',QUARTER(purchase_date)), district_id, frequency
+UNION ALL
+SELECT
+"cards" product_cat,
+a.type product_sub_cat,
+CONCAT(a.purchase_year,'-',QUARTER(a.purchase_date)) quarter,
+c.district_id,
+COUNT(*) no_sales
+FROM cards a
+LEFT JOIN disposition b ON b.disp_id = a.disp_id
+LEFT JOIN clients c ON c.client_id = b.client_id
+GROUP BY CONCAT(purchase_year,'-',QUARTER(purchase_date)), district_id, a.type
+UNION ALL
+SELECT
+"loans" product_cat,
+purpose product_sub_cat,
+CONCAT(a.purchase_year,'-',QUARTER(a.purchase_date)) quarter,
+c.district_id,
+COUNT(*) no_sales
+FROM LOANS a
+LEFT JOIN disposition b ON b.account_id = a.account_id
+LEFT JOIN clients c ON c.client_id = b.client_id
+GROUP BY CONCAT(purchase_year,'-',QUARTER(purchase_date)), district_id, purpose;
+-- check table:
+SELECT * FROM sales_per_quarter;
 
+-- 2.1.2.: Creating view for sales over time (per quarter per district, wide table):
+DROP VIEW IF EXISTS sales_report;
+CREATE VIEW sales_report AS
+SELECT
+quarter,
+district_id,
+SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Monthly Issuance') THEN no_sales ELSE 0 END) AS acc_monthly_issuance,
+SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Issuance After Transaction') THEN no_sales ELSE 0 END) AS acc_issuance_after_tx,
+SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Weekly Issuance') THEN no_sales ELSE 0 END) AS acc_weekly_issuance,
+SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Signature') THEN no_sales ELSE 0 END) AS cards_visa_signature,
+SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Standard') THEN no_sales ELSE 0 END) AS cards_visa_standard,
+SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Infinite') THEN no_sales ELSE 0 END) AS cards_visa_infinite,
+SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'debt_consolidation') THEN no_sales ELSE 0 END) AS loans_debt_consolidation,
+SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'car') THEN no_sales ELSE 0 END) AS loans_car,
+SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'home_improvement') THEN no_sales ELSE 0 END) AS loans_home_improvement,
+SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'home') THEN no_sales ELSE 0 END) AS loans_home
+FROM sales_per_quarter
+GROUP BY quarter, district_id;
+SELECT * FROM sales_report;
