@@ -227,20 +227,21 @@ IGNORE 1 LINES
 
 -- Step 2: Creating analytical data layer to answer questions of interest
 -- 2.1: Loan portfolio
--- 2.1.1: Creating table for overview of loan portfolio over time (per month, long table format). Fields: quarter, category, no_loans_active, sum_payments
--- creating table to store list of dates between first loan purchase and current date (2018-01-01):
-DROP TABLE IF EXISTS loan_timeline;
-CREATE TABLE loan_timeline
-(
-	date_loan_timeline DATE
-);
--- creating procedure to calculate list of dates between first loan purchase and current date (2018-01-01):
+-- 2.1.1: Creating procedure to calculate list of dates between first loan purchase and current date (2018-01-01):
 DROP PROCEDURE IF EXISTS filldates;
 DELIMITER $$
 CREATE PROCEDURE filldates(dateEnd DATE)
 BEGIN
+	
     DECLARE dateStart DATE;
 	DECLARE adate DATE;
+    
+    DROP TABLE IF EXISTS loan_timeline;
+	CREATE TABLE loan_timeline
+	(
+	date_loan_timeline DATE
+	);
+    
     SET dateStart = (SELECT MIN(purchase_date) FROM loans);
 	WHILE dateStart <= dateEnd DO
 		SET adate = (SELECT date_loan_timeline FROM loan_timeline WHERE date_loan_timeline = dateStart);
@@ -256,122 +257,206 @@ CALL filldates('2018-01-01'); -- needs current date as input. as this is now the
 -- sanity check for list of dates between first loan purchase and current date (2018-01-01):
 SELECT min(date_loan_timeline), max(date_loan_timeline) FROM loan_timeline;
 
--- listing for each date the active loans and aggregating per month and loan purpose:
-DROP TABLE IF EXISTS loan_portfolio_per_month;
-CREATE TABLE loan_portfolio_per_month AS
-SELECT 
-month,
-purpose,
-COUNT(loan_id) no_active_loans,
-SUM(payments) sum_payments
-FROM
-(
-	SELECT
-	DISTINCT
-	DATE_FORMAT(date_loan_timeline,'%Y-%m-01') month,
-	loan_id,
+-- 2.1.2: Creating procedure to list for each date the active loans and aggregating per month and loan purpose:
+DROP PROCEDURE IF EXISTS create_loan_portfolio_per_month;
+DELIMITER $$
+CREATE PROCEDURE create_loan_portfolio_per_month()
+BEGIN
+	DROP TABLE IF EXISTS loan_portfolio_per_month;
+	CREATE TABLE loan_portfolio_per_month AS
+	SELECT 
+	month,
 	purpose,
-	payments
+	COUNT(loan_id) no_active_loans,
+	SUM(payments) sum_payments
 	FROM
 	(
 		SELECT
-		a.date_loan_timeline,
-		b.purchase_date,
-		b.end_date,
-		b.loan_id,
-		b.purpose,
-		b.payments
-		FROM loan_timeline a
-		LEFT JOIN 
+		DISTINCT
+		DATE_FORMAT(date_loan_timeline,'%Y-%m-01') month,
+		loan_id,
+		purpose,
+		payments
+		FROM
 		(
 			SELECT
-			loan_id,
-			purchase_date,
-			DATE_ADD("2017-06-15", INTERVAL duration MONTH) end_date,
-			purpose,
-			payments
-			FROM loans
-		) b ON a.date_loan_timeline BETWEEN b.purchase_date AND b.end_date
-	) monthly
-) monthly_agg 
-GROUP BY month, purpose;
+			a.date_loan_timeline,
+			b.purchase_date,
+			b.end_date,
+			b.loan_id,
+			b.purpose,
+			b.payments
+			FROM loan_timeline a
+			LEFT JOIN 
+			(
+				SELECT
+				loan_id,
+				purchase_date,
+				DATE_ADD("2017-06-15", INTERVAL duration MONTH) end_date,
+				purpose,
+				payments
+				FROM loans
+			) b ON a.date_loan_timeline BETWEEN b.purchase_date AND b.end_date
+		) monthly
+	) monthly_agg 
+	GROUP BY month, purpose;
+END;$$
+DELIMITER ;
+-- creating loan_portfolio_per_month table with stored procedure:
+CALL create_loan_portfolio_per_month();
 -- check table:
 SELECT * FROM loan_portfolio_per_month;
 
--- 2.1.2: Creating view for loan portfolio over time (per quarter, wide table). 
--- Fields: quarter, car_no_loans_active, car_sum_payments, debt_cons_no_loans_active, debt_cons_sum_payments, 
--- home_impr_no_loans_active, home_impr_sum_payments, home_no_loans_active, home_sum_payments
-DROP VIEW IF EXISTS loan_portfolio_report;
-CREATE VIEW loan_portfolio_report AS
-SELECT
-CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)) quarter,
-ROUND(SUM(CASE WHEN purpose = 'car' THEN no_active_loans END)/4) AS car_avg_no_loans_active_per_month,
-SUM(CASE WHEN purpose = 'car' THEN sum_payments END) AS car_sum_payments,
-ROUND(SUM(CASE WHEN purpose = 'debt_consolidation' THEN no_active_loans END)/4) AS debt_cons_avg_no_loans_active_per_month,
-SUM(CASE WHEN purpose = 'debt_consolidation' THEN sum_payments END) AS debt_cons_sum_payments,
-ROUND(SUM(CASE WHEN purpose = 'home_improvement' THEN no_active_loans END)/4) AS home_impr_avg_no_loans_active_per_month,
-SUM(CASE WHEN purpose = 'home_improvement' THEN sum_payments END) AS home_impr_sum_payments,
-ROUND(SUM(CASE WHEN purpose = 'home' THEN no_active_loans END)/4) AS home_avg_no_loans_active_per_month,
-SUM(CASE WHEN purpose = 'home' THEN sum_payments END) AS home_sum_payments
-FROM loan_portfolio_per_month
-GROUP BY CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month));
+-- 2.1.3: Creating procedure for view for loan portfolio over time (per quarter, wide table). 
+DROP PROCEDURE IF EXISTS create_loan_portfolio_report;
+DELIMITER $$
+CREATE PROCEDURE create_loan_portfolio_report()
+BEGIN
+	DROP VIEW IF EXISTS loan_portfolio_report;
+	CREATE VIEW loan_portfolio_report AS
+	SELECT
+	CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)) quarter,
+	ROUND(SUM(CASE WHEN purpose = 'car' THEN no_active_loans END)/4) AS car_avg_no_loans_active_per_month,
+	SUM(CASE WHEN purpose = 'car' THEN sum_payments END) AS car_sum_payments,
+	ROUND(SUM(CASE WHEN purpose = 'debt_consolidation' THEN no_active_loans END)/4) AS debt_cons_avg_no_loans_active_per_month,
+	SUM(CASE WHEN purpose = 'debt_consolidation' THEN sum_payments END) AS debt_cons_sum_payments,
+	ROUND(SUM(CASE WHEN purpose = 'home_improvement' THEN no_active_loans END)/4) AS home_impr_avg_no_loans_active_per_month,
+	SUM(CASE WHEN purpose = 'home_improvement' THEN sum_payments END) AS home_impr_sum_payments,
+	ROUND(SUM(CASE WHEN purpose = 'home' THEN no_active_loans END)/4) AS home_avg_no_loans_active_per_month,
+	SUM(CASE WHEN purpose = 'home' THEN sum_payments END) AS home_sum_payments
+	FROM loan_portfolio_per_month
+	GROUP BY CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month));
+END;$$
+DELIMITER ;
+CALL create_loan_portfolio_report();
 -- check view:
 SELECT * FROM loan_portfolio_report;
 
--- 2.1: Overview of sales over time per district. Fields: quarter, location, category, no_loans_active, sum_payments
--- 2.1.1.: create DW table sales_per_quarter (long table):
-DROP TABLE IF EXISTS sales_per_month;
-CREATE TABLE sales_per_month AS
-SELECT
-"accounts" product_cat,
-frequency product_sub_cat,
-CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
-district_id,
-COUNT(*) no_sales
-FROM accounts
-GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, frequency
-UNION ALL
-SELECT
-"cards" product_cat,
-a.type product_sub_cat,
-CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
-c.district_id,
-COUNT(*) no_sales
-FROM cards a
-LEFT JOIN disposition b ON b.disp_id = a.disp_id
-LEFT JOIN clients c ON c.client_id = b.client_id
-GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, a.type
-UNION ALL
-SELECT
-"loans" product_cat,
-purpose product_sub_cat,
-CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
-c.district_id,
-COUNT(*) no_sales
-FROM LOANS a
-LEFT JOIN disposition b ON b.account_id = a.account_id
-LEFT JOIN clients c ON c.client_id = b.client_id
-GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, purpose;
+-- 2.2: Overview of sales over time per district
+-- 2.2.1.: Create procedure for DW table sales_per_month (long table):
+DROP PROCEDURE IF EXISTS create_sales_per_month;
+DELIMITER $$
+CREATE PROCEDURE create_sales_per_month()
+BEGIN
+	DROP TABLE IF EXISTS sales_per_month;
+	CREATE TABLE sales_per_month AS
+	SELECT
+	"accounts" product_cat,
+	frequency product_sub_cat,
+	CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
+	district_id,
+	COUNT(*) no_sales
+	FROM accounts
+	GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, frequency
+	UNION ALL
+	SELECT
+	"cards" product_cat,
+	a.type product_sub_cat,
+	CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
+	c.district_id,
+	COUNT(*) no_sales
+	FROM cards a
+	LEFT JOIN disposition b ON b.disp_id = a.disp_id
+	LEFT JOIN clients c ON c.client_id = b.client_id
+	GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, a.type
+	UNION ALL
+	SELECT
+	"loans" product_cat,
+	purpose product_sub_cat,
+	CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
+	c.district_id,
+	COUNT(*) no_sales
+	FROM LOANS a
+	LEFT JOIN disposition b ON b.account_id = a.account_id
+	LEFT JOIN clients c ON c.client_id = b.client_id
+	GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, purpose;
+END;$$
+DELIMITER ;
+CALL create_sales_per_month();
 -- check table:
 SELECT * FROM sales_per_month;
 
--- 2.1.2.: Creating view for sales over time (per quarter per district, wide table):
-DROP VIEW IF EXISTS sales_report;
-CREATE VIEW sales_report AS
-SELECT
-CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)) quarter,
-district_id,
-SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Monthly Issuance') THEN no_sales ELSE 0 END) AS acc_monthly_issuance,
-SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Issuance After Transaction') THEN no_sales ELSE 0 END) AS acc_issuance_after_tx,
-SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Weekly Issuance') THEN no_sales ELSE 0 END) AS acc_weekly_issuance,
-SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Signature') THEN no_sales ELSE 0 END) AS cards_visa_signature,
-SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Standard') THEN no_sales ELSE 0 END) AS cards_visa_standard,
-SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Infinite') THEN no_sales ELSE 0 END) AS cards_visa_infinite,
-SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'debt_consolidation') THEN no_sales ELSE 0 END) AS loans_debt_consolidation,
-SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'car') THEN no_sales ELSE 0 END) AS loans_car,
-SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'home_improvement') THEN no_sales ELSE 0 END) AS loans_home_improvement,
-SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'home') THEN no_sales ELSE 0 END) AS loans_home
-FROM sales_per_month
-GROUP BY CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)), district_id;
+-- 2.2.2.: Creating procedure for view for sales over time (per quarter per district, wide table):
+DROP PROCEDURE IF EXISTS create_sales_report;
+DELIMITER $$
+CREATE PROCEDURE create_sales_report()
+BEGIN
+	DROP VIEW IF EXISTS sales_report;
+	CREATE VIEW sales_report AS
+	SELECT
+	CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)) quarter,
+	district_id,
+	SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Monthly Issuance') THEN no_sales ELSE 0 END) AS acc_monthly_issuance,
+	SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Issuance After Transaction') THEN no_sales ELSE 0 END) AS acc_issuance_after_tx,
+	SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Weekly Issuance') THEN no_sales ELSE 0 END) AS acc_weekly_issuance,
+	SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Signature') THEN no_sales ELSE 0 END) AS cards_visa_signature,
+	SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Standard') THEN no_sales ELSE 0 END) AS cards_visa_standard,
+	SUM(CASE WHEN (product_cat = 'cards' AND product_sub_cat = 'VISA Infinite') THEN no_sales ELSE 0 END) AS cards_visa_infinite,
+	SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'debt_consolidation') THEN no_sales ELSE 0 END) AS loans_debt_consolidation,
+	SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'car') THEN no_sales ELSE 0 END) AS loans_car,
+	SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'home_improvement') THEN no_sales ELSE 0 END) AS loans_home_improvement,
+	SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'home') THEN no_sales ELSE 0 END) AS loans_home
+	FROM sales_per_month
+	GROUP BY CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)), district_id;
+END;$$
+DELIMITER ;
+CALL create_sales_report();
 SELECT * FROM sales_report;
 
+-- 3: Create triggers to update Data Warehouse if table(s) in operational layer change:
+-- When the 'accounts' table changes:
+DELIMITER $$
+CREATE TRIGGER accounts_change
+    AFTER UPDATE
+    ON accounts FOR EACH ROW
+BEGIN
+    CALL create_sales_per_month();
+END$$    
+DELIMITER ;
+
+-- When the 'cards' table changes:
+DELIMITER $$
+CREATE TRIGGER cards_change
+    AFTER UPDATE
+    ON cards FOR EACH ROW
+BEGIN
+    CALL create_sales_per_month();
+END$$    
+DELIMITER ;
+
+-- When the 'clients' table changes:
+DELIMITER $$
+CREATE TRIGGER clients_change
+    AFTER UPDATE
+    ON clients FOR EACH ROW
+BEGIN
+    CALL create_sales_per_month();
+END$$    
+DELIMITER ;
+
+-- When the 'disposition' table changes:
+DELIMITER $$
+CREATE TRIGGER disposition_change
+    AFTER UPDATE
+    ON disposition FOR EACH ROW
+BEGIN
+    CALL create_sales_per_month();
+END$$    
+DELIMITER ;
+
+-- When the 'loans' table changes:
+DELIMITER $$
+CREATE TRIGGER loans_change
+    AFTER UPDATE
+    ON loans FOR EACH ROW
+BEGIN
+	CALL filldates('2018-01-01'); -- (fictional) current date has to be passed manually
+	CALL create_loan_portfolio_per_monthsales_per_month();
+END$$    
+DELIMITER ;
+
+-- 4: Check final DW and DM tables:
+SELECT * FROM loan_portfolio_per_month;
+SELECT * FROM loan_portfolio_report;
+SELECT * FROM sales_per_month;
+SELECT * FROM sales_report;
