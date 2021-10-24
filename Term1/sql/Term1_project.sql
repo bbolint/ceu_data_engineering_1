@@ -235,6 +235,6 @@ frequency AS "product_group",
 CONCAT(purchase_year,"-", QUARTER(purchase_date)) purchase_quarter
 FROM accounts;
 
-SELECT * FROM cards;
+SELECT * FROM loans;
 
 
