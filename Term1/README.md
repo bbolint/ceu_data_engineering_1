@@ -38,17 +38,6 @@ Clients can have 3 general types of products:
 	- Status: A, B, C, D
 	- Purpose: Car, Debt Consolidation, Home Improvement, Home
 
-| Product types | Product subtypes |
-| --- | ----------- |
-| Accounts | - Monthly issuance
-	- Issuance after transaction
-	- Weekly issuance |
-| Cards | - VISA Signature
-	- VISA Standard
-	- VISA Infinite |
-| Loans | - Duration: 12, 24, 36, 48, 60 months
-	- Status: A, B, C, D
-	- Purpose: Car, Debt Consolidation, Home Improvement, Home |
 
 
 #### Description of data transformations
