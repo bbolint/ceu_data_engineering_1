@@ -262,7 +262,7 @@ CREATE TABLE loan_portfolio_per_month AS
 SELECT 
 month,
 purpose,
-COUNT(loan_id) count_loans,
+COUNT(loan_id) no_active_loans,
 SUM(payments) sum_payments
 FROM
 (
@@ -305,13 +305,13 @@ DROP VIEW IF EXISTS loan_portfolio_report;
 CREATE VIEW loan_portfolio_report AS
 SELECT
 CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)) quarter,
-ROUND(SUM(CASE WHEN purpose = 'car' THEN count_loans END)/4) AS car_avg_no_loans_active_per_month,
+ROUND(SUM(CASE WHEN purpose = 'car' THEN no_active_loans END)/4) AS car_avg_no_loans_active_per_month,
 SUM(CASE WHEN purpose = 'car' THEN sum_payments END) AS car_sum_payments,
-ROUND(SUM(CASE WHEN purpose = 'debt_consolidation' THEN count_loans END)/4) AS debt_cons_avg_no_loans_active_per_month,
+ROUND(SUM(CASE WHEN purpose = 'debt_consolidation' THEN no_active_loans END)/4) AS debt_cons_avg_no_loans_active_per_month,
 SUM(CASE WHEN purpose = 'debt_consolidation' THEN sum_payments END) AS debt_cons_sum_payments,
-ROUND(SUM(CASE WHEN purpose = 'home_improvement' THEN count_loans END)/4) AS home_impr_avg_no_loans_active_per_month,
+ROUND(SUM(CASE WHEN purpose = 'home_improvement' THEN no_active_loans END)/4) AS home_impr_avg_no_loans_active_per_month,
 SUM(CASE WHEN purpose = 'home_improvement' THEN sum_payments END) AS home_impr_sum_payments,
-ROUND(SUM(CASE WHEN purpose = 'home' THEN count_loans END)/4) AS home_avg_no_loans_active_per_month,
+ROUND(SUM(CASE WHEN purpose = 'home' THEN no_active_loans END)/4) AS home_avg_no_loans_active_per_month,
 SUM(CASE WHEN purpose = 'home' THEN sum_payments END) AS home_sum_payments
 FROM loan_portfolio_per_month
 GROUP BY CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month));
@@ -320,46 +320,46 @@ SELECT * FROM loan_portfolio_report;
 
 -- 2.1: Overview of sales over time per district. Fields: quarter, location, category, no_loans_active, sum_payments
 -- 2.1.1.: create DW table sales_per_quarter (long table):
-DROP TABLE IF EXISTS sales_per_quarter;
-CREATE TABLE sales_per_quarter AS
+DROP TABLE IF EXISTS sales_per_month;
+CREATE TABLE sales_per_month AS
 SELECT
 "accounts" product_cat,
 frequency product_sub_cat,
-CONCAT(purchase_year,'-',QUARTER(purchase_date)) quarter,
+CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
 district_id,
 COUNT(*) no_sales
 FROM accounts
-GROUP BY CONCAT(purchase_year,'-',QUARTER(purchase_date)), district_id, frequency
+GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, frequency
 UNION ALL
 SELECT
 "cards" product_cat,
 a.type product_sub_cat,
-CONCAT(a.purchase_year,'-',QUARTER(a.purchase_date)) quarter,
+CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
 c.district_id,
 COUNT(*) no_sales
 FROM cards a
 LEFT JOIN disposition b ON b.disp_id = a.disp_id
 LEFT JOIN clients c ON c.client_id = b.client_id
-GROUP BY CONCAT(purchase_year,'-',QUARTER(purchase_date)), district_id, a.type
+GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, a.type
 UNION ALL
 SELECT
 "loans" product_cat,
 purpose product_sub_cat,
-CONCAT(a.purchase_year,'-',QUARTER(a.purchase_date)) quarter,
+CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01') month,
 c.district_id,
 COUNT(*) no_sales
 FROM LOANS a
 LEFT JOIN disposition b ON b.account_id = a.account_id
 LEFT JOIN clients c ON c.client_id = b.client_id
-GROUP BY CONCAT(purchase_year,'-',QUARTER(purchase_date)), district_id, purpose;
+GROUP BY CONCAT(DATE_FORMAT(purchase_date,'%Y-%m'),'-01'), district_id, purpose;
 -- check table:
-SELECT * FROM sales_per_quarter;
+SELECT * FROM sales_per_month;
 
 -- 2.1.2.: Creating view for sales over time (per quarter per district, wide table):
 DROP VIEW IF EXISTS sales_report;
 CREATE VIEW sales_report AS
 SELECT
-quarter,
+CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)) quarter,
 district_id,
 SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Monthly Issuance') THEN no_sales ELSE 0 END) AS acc_monthly_issuance,
 SUM(CASE WHEN (product_cat = 'accounts' AND product_sub_cat = 'Issuance After Transaction') THEN no_sales ELSE 0 END) AS acc_issuance_after_tx,
@@ -371,6 +371,7 @@ SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'debt_consolidation')
 SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'car') THEN no_sales ELSE 0 END) AS loans_car,
 SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'home_improvement') THEN no_sales ELSE 0 END) AS loans_home_improvement,
 SUM(CASE WHEN (product_cat = 'loans' AND product_sub_cat = 'home') THEN no_sales ELSE 0 END) AS loans_home
-FROM sales_per_quarter
-GROUP BY quarter, district_id;
+FROM sales_per_month
+GROUP BY CONCAT(DATE_FORMAT(month,'%Y'),'-',QUARTER(month)), district_id;
 SELECT * FROM sales_report;
+
