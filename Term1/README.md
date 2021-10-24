@@ -7,7 +7,7 @@
 ...
 
 <p align="center">
-	<img src="db_model/db_model_overview_2.PNG" alt="Eagle Bank Database: Overview of Operational Layer" width="800"/>
+	<img src="db_model/db_model_overview_2.png" alt="Eagle Bank Database: Overview of Operational Layer" width="800"/>
 </p>
 
 Current date: 2018-01-01
