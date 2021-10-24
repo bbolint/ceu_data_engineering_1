@@ -26,7 +26,7 @@ The database created for this project consists of three main parts:
 
 
 #### ETL
-Each of the tables `loan_portfolio_per_month`, `sales_per_month` and `views loan_portfolio_report`, `sales_report` are created using procedures in the SQL script. There are additional triggers that re-run these procedures if the corresponding tables in the operational layer are updated.
+Each of the tables `loan_portfolio_per_month`, `sales_per_month` and views `loan_portfolio_report`, `sales_report` are created using procedures in the SQL script. There are additional triggers that re-run these procedures if the corresponding tables in the operational layer are updated.
 
 ### How to Reproduce the Project
 1. Install software: MySQL, MySQL WorkBench, Git
