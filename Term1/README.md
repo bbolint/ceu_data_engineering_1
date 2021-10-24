@@ -6,7 +6,7 @@
 Current date: 2018-01-01
 
 ### Key points of management interest
-#### Overview of loan portfolio over time
+#### Overview of loan portfolio over time per district
 #### Overview of sales over time per district
 
 ### The Database
