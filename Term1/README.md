@@ -11,7 +11,7 @@ Note: The fictional current time for this project is 2018-01-01. This is because
 ### Main questions
 Main questions to be answered by the data warehouse and the data marts are the following (coming from the management of Eagle Bank):
 1. Please show us an overview of our loan portfolio (with respect to sub-categories of loans) over the past few years
-2. Please show us an overview of our sales (in each product types and product subtypes) per district over the past few years
+2. Please show us an overview of our sales (in each product type and product subtype) per district over the past few years
 
 Note: product types (subtypes) are the following: 
 - Accounts (monthly issuance, issuance after transaction, weekly issuance)
