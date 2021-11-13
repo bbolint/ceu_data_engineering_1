@@ -41,9 +41,12 @@ We had two main sources for our data:
 </p>
 
 2. An API call for quarterly C, I, G, X and M per country to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request).
+
+
 <p align="center">
 	<img src="api_na_item_structure.PNG" alt="Variable names" width="600"/>  
 </p>
+
 <p align="center">
 	<b>Figure 3. JSON structure of input API call: Variable names (C, I, G, X, M)</b>
 </p>
@@ -51,6 +54,7 @@ We had two main sources for our data:
 <p align="center">
 	<img src="api_geo_structure.PNG" alt="Countries" width="600"/>  
 </p>
+
 <p align="center">
 	<b>Figure 3. JSON structure of input API call: Countries (C, I, G, X, M)</b>
 </p>
@@ -58,6 +62,7 @@ We had two main sources for our data:
 <p align="center">
 	<img src="api_time_structure.PNG" alt="Time structure" width="600"/>  
 </p>
+
 <p align="center">
 	<b>Figure 3. JSON structure of input API call: Time</b>
 </p>
@@ -65,6 +70,7 @@ We had two main sources for our data:
 <p align="center">
 	<img src="api_status_structure.PNG" alt="Status structure" width="600"/>  
 </p>
+
 <p align="center">
 	<b>Figure 3. JSON structure of input API call: Status</b>
 </p>
@@ -72,6 +78,7 @@ We had two main sources for our data:
 <p align="center">
 	<img src="api_value_structure.PNG" alt="Value structure" width="600"/>  
 </p>
+
 <p align="center">
 	<b>Figure 3. JSON structure of input API call: Value</b>
 </p>
