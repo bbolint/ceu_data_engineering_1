@@ -35,7 +35,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	Figure 1. Regression model formula
+	**Figure 1. Regression model formula**
 </p>
 
 2. An API call for quarterly C, I, G, X and M per country to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request).
