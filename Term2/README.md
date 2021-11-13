@@ -41,7 +41,10 @@ We had two main sources for our data:
 2. An API call for quarterly C, I, G, X and M per country to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request).
 <p align="center">
 	<img src="png/api_input_structure.PNG" alt="JSON structure of API call" width="600"/>  
-	Figure 3. JSON structure of input API call
+</p>
+
+<p align="center">
+	<b>Figure 3. JSON structure of input API call</b>
 </p>
 
 All data are in millions of Euros in current prices and are seasonally adjusted.
@@ -50,11 +53,10 @@ All data are in millions of Euros in current prices and are seasonally adjusted.
 
 <p align="center">
 	<img src="png/knime_workflow_complete_labeled.png" alt="Complete Knime workflow" width="1000"/>  
-	Figure 4. Complete Knime workflow. Section 1: Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1). Section 2: Calling Eurostat REST API, importing and formatting different parts of the JSON file. Section 3: Joining different parts of JSON file into one final table, and preparing this table for analysis. Section 4: Final data preparation and modeling in a loop, outputting beta coefficients in a final table.
+	
 </p>
-
-
-
-
+<p align="center">
+	<b>Figure 4. Complete Knime workflow.</b> Section 1: Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1). Section 2: Calling Eurostat REST API, importing and formatting different parts of the JSON file. Section 3: Joining different parts of JSON file into one final table, and preparing this table for analysis. Section 4: Final data preparation and modeling in a loop, outputting beta coefficients in a final table.
+</p>
 
 ## Results
