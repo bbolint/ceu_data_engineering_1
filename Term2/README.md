@@ -48,19 +48,6 @@ We had two main sources for our data:
 	<b>Figure 3. JSON structure of input API call</b>
 </p>
 
-
-<div class="row">
-  <div class="column">
-    <img src="png/api_input_structure.PNG" alt="JSON structure of API call" width="200"/>  
-  </div>
-  <div class="column">
-    <img src="png/api_input_structure.PNG" alt="JSON structure of API call" width="200"/>  
-  </div>
-  <div class="column">
-    <img src="png/api_input_structure.PNG" alt="JSON structure of API call" width="200"/>  
-  </div>
-</div>
-
 All data are in millions of Euros in current prices and are seasonally adjusted.
 
 ## Data preparation and regression modeling
