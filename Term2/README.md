@@ -63,7 +63,7 @@ The complete workflow in Knime is displayed in Figure 4:
 </p>
 
 ### Sections of Knime workflow:
-#### 1. Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1). 
+#### 1. Importing table with gdp data from the relational database
 <p align="center">
 	<img src="png/knime_workflow_db_input.PNG" alt="DB input" width="800"/>  
 	
