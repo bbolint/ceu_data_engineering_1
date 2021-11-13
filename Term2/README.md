@@ -62,10 +62,45 @@ The complete workflow in Knime is displayed in Figure 4:
 	<b>Figure 4. Complete Knime workflow.</b>
 </p>
 
-**Sections of Knime workflow:**
-### 1. Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1).  
-### 2. Calling Eurostat REST API, importing and formatting different parts of the JSON file.  
-### 3. Joining different parts of JSON file into one final table, and preparing this table for analysis.   
-### 4. Final data preparation and modeling in a loop, outputting beta coefficients in a final table.  
+### Sections of Knime workflow:
+#### 1. Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1). 
+<p align="center">
+	<img src="png/knime_workflow_db_input.PNG" alt="DB input" width="1000"/>  
+	
+</p>
+<p align="center">
+	<b>Figure 4. DB input flow.</b>
+</p>
+
+#### 2. Calling Eurostat REST API, importing and formatting different parts of the JSON file.
+<p align="center">
+	<img src="png/knime_workflow_api_input.PNG" alt="API input" width="1000"/>  
+	
+</p>
+<p align="center">
+	<b>Figure 4. API input flow.</b>
+</p>
+
+
+#### 3. Joining different parts of JSON file into one final table, and preparing this table for analysis.
+<p align="center">
+	<img src="png/knime_workflow_api_preparaditon.PNG" alt="API preparation" width="1000"/>  
+	
+</p>
+<p align="center">
+	<b>Figure 4. API preparation.</b>
+</p>
+
+
+#### 4. Final data preparation and modeling in a loop, outputting beta coefficients in a final table.
+<p align="center">
+	<img src="png/knime_workflow_join_and_modeling.PNG" alt="Data join and modeling" width="1000"/>  
+	
+</p>
+<p align="center">
+	<b>Figure 4. Data join and modeling.</b>
+</p>
+
+
 
 ## Results
