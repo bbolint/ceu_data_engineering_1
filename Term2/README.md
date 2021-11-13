@@ -44,7 +44,7 @@ We had two main sources for our data:
 
 
 <p align="center">
-	<img src="png/api_na_item_structure.PNG" alt="Variable names" width="300"/>  
+	<img src="png/api_na_item_structure.PNG" alt="Variable names" width="400"/>  
 </p>
 
 <p align="center">
@@ -52,7 +52,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	<img src="png/api_geo_structure.PNG" alt="Countries" width="300"/>  
+	<img src="png/api_geo_structure.PNG" alt="Countries" width="400"/>  
 </p>
 
 <p align="center">
@@ -60,7 +60,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	<img src="png/api_time_structure.PNG" alt="Time structure" width="300"/>  
+	<img src="png/api_time_structure.PNG" alt="Time structure" width="200"/>  
 </p>
 
 <p align="center">
@@ -68,7 +68,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	<img src="png/api_status_structure.PNG" alt="Status structure" width="300"/>  
+	<img src="png/api_status_structure.PNG" alt="Status structure" width="200"/>  
 </p>
 
 <p align="center">
@@ -76,7 +76,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	<img src="png/api_value_structure.PNG" alt="Value structure" width="300"/>  
+	<img src="png/api_value_structure.PNG" alt="Value structure" width="200"/>  
 </p>
 
 <p align="center">
