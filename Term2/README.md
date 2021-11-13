@@ -24,3 +24,11 @@ Our model consists of a multiple regression by ordinary least squares (OLS). The
 <p align="center">
 	<img src="png/model.PNG" alt="Regression model" width="400"/>
 </p>
+
+## Source data
+
+
+## Data model
+
+
+## Results
