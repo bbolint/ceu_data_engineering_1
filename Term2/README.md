@@ -22,5 +22,5 @@ M: Imports
 Our model consists of a multiple regression by ordinary least squares (OLS). The dependent variable corresponds to GDP and the independent variables to the expenditure of the sectors described in the previous section (Households, Companies, government, exports and imports). We will use quarterly data extracted from the database of the European statistics office (Euro stat) of Germany, France, UK, Hungary, and Austria. All variables are in millions of euros at current prices. In addition, the variables are seasonally adjusted to eliminate the influence of cyclical phenomena in our analysis.
 
 <p align="center">
-	<img src="png/model.png" alt="Regression model" width="800"/>
+	<img src="png/model.PNG" alt="Regression model" width="800"/>
 </p>
