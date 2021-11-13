@@ -19,14 +19,18 @@ M: Imports
 
 ## Model 
 
-Our model consists of a multiple regression by ordinary least squares (OLS). The dependent variable corresponds to GDP and the independent variables to the expenditure of the sectors described in the previous section (Households, Companies, government, exports and imports). We will use quarterly data extracted from the database of the European statistics office (Euro stat) of Germany, France, UK, Hungary, and Austria. All variables are in millions of euros at current prices. In addition, the variables are seasonally adjusted to eliminate the influence of cyclical phenomena in our analysis.
+Our model consists of a multiple regression by ordinary least squares (OLS). The dependent variable corresponds to GDP and the independent variables to the expenditure of the sectors described in the previous section (Households, Companies, government, exports and imports). We will use quarterly data extracted from the database of the European statistics office (Eurostat) of Germany, France, UK, Hungary, and Austria. All variables are in millions of euros at current prices. In addition, the variables are seasonally adjusted to eliminate the influence of cyclical phenomena in our analysis.
 
 <p align="center">
 	<img src="png/model.PNG" alt="Regression model" width="400"/>
 </p>
 
 ## Source data
+Our source data consists of two main sources:
+1. A table containing seasonally adjusted quarterly GDP values per country in a MySQL database (`macroeconomic_db.gdp`). This dataset was downloaded using the Data Browser application of Eurostat (see: https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en).
+2. An API call for quarterly C, I, G, X and M per country to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request).
 
+All data are in millions of Euros in current prices and are seasonally adjusted.
 
 ## Data model
 
