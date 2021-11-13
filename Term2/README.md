@@ -83,7 +83,7 @@ The complete workflow in Knime is displayed in Figure 4:
 
 #### 3. Joining different parts of JSON file into one final table, and preparing this table for analysis.
 <p align="center">
-	<img src="png/knime_workflow_api_preparaditon.PNG" alt="API preparation" width="600"/>  
+	<img src="png/knime_workflow_api_preparaditon.PNG" alt="API preparation" width="400"/>  
 	
 </p>
 <p align="center">
@@ -93,7 +93,7 @@ The complete workflow in Knime is displayed in Figure 4:
 
 #### 4. Final data preparation and modeling in a loop, outputting beta coefficients in a final table.
 <p align="center">
-	<img src="png/knime_workflow_join_and_modeling.PNG" alt="Data join and modeling" width="600"/>  
+	<img src="png/knime_workflow_join_and_modeling.PNG" alt="Data join and modeling" width="400"/>  
 	
 </p>
 <p align="center">
