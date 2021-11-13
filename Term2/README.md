@@ -52,6 +52,7 @@ We had two main sources for our data:
 All data are in millions of Euros in current prices and are seasonally adjusted.
 
 ## Data preparation and regression modeling
+The complete workflow in Knime is displayed in Figure 4:
 
 <p align="center">
 	<img src="png/knime_workflow_complete_labeled.png" alt="Complete Knime workflow" width="1000"/>  
