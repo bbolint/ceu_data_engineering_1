@@ -60,10 +60,10 @@ All data are in millions of Euros in current prices and are seasonally adjusted.
 <p align="center">
 	<b>Figure 4. Complete Knime workflow.</b>
 	
-Section 1: Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1). 
-Section 2: Calling Eurostat REST API, importing and formatting different parts of the JSON file. 
-Section 3: Joining different parts of JSON file into one final table, and preparing this table for analysis. 
-Section 4: Final data preparation and modeling in a loop, outputting beta coefficients in a final table.
+Section 1: Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1).  
+Section 2: Calling Eurostat REST API, importing and formatting different parts of the JSON file.  
+Section 3: Joining different parts of JSON file into one final table, and preparing this table for analysis.   
+Section 4: Final data preparation and modeling in a loop, outputting beta coefficients in a final table.  
 </p>
 
 ## Results
