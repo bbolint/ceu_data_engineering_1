@@ -62,10 +62,10 @@ The complete workflow in Knime is displayed in Figure 4:
 	<b>Figure 4. Complete Knime workflow.</b>
 </p>
 
-Sections of Knime workflow:
-1. Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1).  
-2. Calling Eurostat REST API, importing and formatting different parts of the JSON file.  
-3. Joining different parts of JSON file into one final table, and preparing this table for analysis.   
-4. Final data preparation and modeling in a loop, outputting beta coefficients in a final table.  
+**Sections of Knime workflow:**
+### 1. Importing and preparing `macroeconomic_db.gdp` for analysis (input source 1).  
+### 2. Calling Eurostat REST API, importing and formatting different parts of the JSON file.  
+### 3. Joining different parts of JSON file into one final table, and preparing this table for analysis.   
+### 4. Final data preparation and modeling in a loop, outputting beta coefficients in a final table.  
 
 ## Results
