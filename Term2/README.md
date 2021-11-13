@@ -10,12 +10,11 @@ One of the most common indicators to measure the economic performance of a count
 
 GDP = C + I + G + X - M
 
-GDP: Gross domestic product
-
-C: Household expenditures
-I: Private sector expenditures
-G: Public sector expenditures
-X: Exports
+GDP: Gross domestic product  
+C: Household expenditures  
+I: Private sector expenditures  
+G: Public sector expenditures  
+X: Exports  
 M: Imports
 
 ## Model 
