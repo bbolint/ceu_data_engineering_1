@@ -64,7 +64,7 @@ The complete workflow in Knime is displayed in Figure 4:
 ### Sections of Knime workflow:
 #### 1. Importing table with gdp data from the relational database
 <p align="center">
-	<img src="png/knime_workflow_db_input.PNG" alt="DB input" width="800"/>  
+	<img src="png/knime_workflow_db_input.PNG" alt="DB input" width="600"/>  
 	
 </p>
 <p align="center">
@@ -73,7 +73,7 @@ The complete workflow in Knime is displayed in Figure 4:
 
 #### 2. Calling Eurostat REST API, importing and formatting different parts of the JSON file.
 <p align="center">
-	<img src="png/knime_workflow_api_input.PNG" alt="API input" width="800"/>  
+	<img src="png/knime_workflow_api_input.PNG" alt="API input" width="600"/>  
 	
 </p>
 <p align="center">
