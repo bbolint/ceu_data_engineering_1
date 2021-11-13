@@ -42,7 +42,7 @@ All data are in millions of Euros in current prices and are seasonally adjusted.
 ## Data preparation and regression modeling
 
 <p align="center">
-	<img src="png/knime_workflow_complete_labeled.PNG" alt="Complete Knime workflow" width="800"/>
+	<img src="png/knime_workflow_complete_labeled.png" alt="Complete Knime workflow" width="800"/>
 </p>
 
 
