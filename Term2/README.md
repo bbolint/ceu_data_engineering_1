@@ -68,7 +68,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 4. DB input flow.</b>
+	<b>Figure 5. DB input flow.</b>
 </p>
 
 #### 2. Calling Eurostat REST API, importing and formatting different parts of the JSON file.
@@ -77,7 +77,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 4. API input flow.</b>
+	<b>Figure 6. API input flow.</b>
 </p>
 
 
@@ -87,7 +87,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 4. Preparing API input data.</b>
+	<b>Figure 7. Preparing API input data.</b>
 </p>
 
 
@@ -97,7 +97,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 4. Data join and modeling.</b>
+	<b>Figure 8. Data join and modeling.</b>
 </p>
 
 
