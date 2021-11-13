@@ -29,12 +29,11 @@ Our model consists of a multiple regression by ordinary least squares (OLS). The
 ## Source data & data model
 We had two main sources for our data:
 1. A table containing seasonally adjusted quarterly GDP values per country in a MySQL database (`macroeconomic_db.gdp`). This dataset was downloaded using the Data Browser application of Eurostat (see: https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en).
-<p align="center">	
-	<figure>
-		<img src="png/db_input_structure.PNG" alt="Table structure of DB table" width="600"/>  
-		<figcaption>Figure 2. Table structure of DB input table</figcaption>
-	</figure>
-</p>
+
+<figure align=center>
+	<img src="png/db_input_structure.PNG" alt="Table structure of DB table" width="600"/>  
+	<figcaption>Figure 2. Table structure of DB input table</figcaption>
+</figure>
 
 2. An API call for quarterly C, I, G, X and M per country to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request).
 <p align="center">
