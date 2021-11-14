@@ -56,7 +56,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	<b>Figure 3. JSON structure of input API call: Countries (C, I, G, X, M)</b>
+	<b>Figure 4. JSON structure of input API call: Countries (C, I, G, X, M)</b>
 </p>
 
 <p align="center">
@@ -64,7 +64,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	<b>Figure 3. JSON structure of input API call: Time</b>
+	<b>Figure 5. JSON structure of input API call: Time</b>
 </p>
 
 <p align="center">
@@ -72,7 +72,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	<b>Figure 3. JSON structure of input API call: Status</b>
+	<b>Figure 6. JSON structure of input API call: Status</b>
 </p>
 
 <p align="center">
@@ -80,7 +80,7 @@ We had two main sources for our data:
 </p>
 
 <p align="center">
-	<b>Figure 3. JSON structure of input API call: Value</b>
+	<b>Figure 7. JSON structure of input API call: Value</b>
 </p>
 
 All data are in millions of Euros in current prices and are seasonally adjusted.
@@ -93,7 +93,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 4. Complete Knime workflow.</b>
+	<b>Figure 8. Complete Knime workflow.</b>
 </p>
 
 ### Sections of Knime workflow:
@@ -103,7 +103,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 5. DB input flow.</b>
+	<b>Figure 9. DB input flow.</b>
 </p>
 
 #### 2. Calling Eurostat REST API, importing and formatting different parts of the JSON file.
@@ -112,7 +112,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 6. API input flow.</b>
+	<b>Figure 10. API input flow.</b>
 </p>
 
 
@@ -122,7 +122,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 7. Preparing API input data.</b>
+	<b>Figure 11. Preparing API input data.</b>
 </p>
 
 
@@ -132,7 +132,7 @@ The complete workflow in Knime is displayed in Figure 4:
 	
 </p>
 <p align="center">
-	<b>Figure 8. Data join and modeling.</b>
+	<b>Figure 12. Data join and modeling.</b>
 </p>
 
 
