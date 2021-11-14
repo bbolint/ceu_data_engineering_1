@@ -32,7 +32,7 @@ Our model consists of a multiple regression by ordinary least squares (OLS). The
 
 ## Source data & data model
 All data we used were in millions of Euros in current prices and were seasonally adjusted. We had two main sources for our data:
-1. A table containing seasonally adjusted quarterly GDP values per country in a MySQL database (`macroeconomic_db.gdp`). This dataset was downloaded using the Data Browser application of Eurostat (see: https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en).
+1. A table containing seasonally adjusted quarterly GDP values per country in a MySQL database (`macroeconomic_db.gdp`). This dataset was downloaded using the Data Browser application of Eurostat (see: https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en).  
 
 <p align="center">
 	<img src="png/db_input_structure.PNG" alt="Table structure of DB table" width="600"/>  
@@ -41,7 +41,7 @@ All data we used were in millions of Euros in current prices and were seasonally
 	<b>Figure 2. Table structure of DB table</b>
 </p>
 
-2. An API call for quarterly C, I, G, X and M per country (as defined under "Description") to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request). The received JSON file was formatted according to the JSON-stat format used by many statistical organizations (https://json-stat.org/format/). Labels of aggregation dimensions and actual data values were stored in separate parts of received the JSON file. We had to combine the labels of the aggregation dimensions (cross-join) and data values (records under value and status keys) separately. Then, we had to combine the combined aggregation dimensions with the combined data values. Since the json file did not contain any redundancy (i.e. did not story any aggregation dimension more than once), the full table required for modeling had to be created in a relatively complex manner with multiple steps. A glimpse of the original (sub-)structure of the JSON file can be seen in Figure 3-7 below.
+2. An API call for quarterly C, I, G, X and M per country (as defined under "Description") to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request). The received JSON file was formatted according to the JSON-stat format used by many statistical organizations such as the statistical institutes of Sweden, the UK, Denmark, the World Bank, etc. (https://json-stat.org/format/). Labels of aggregation dimensions and actual data values were stored in separate parts of received the JSON file. We had to combine the labels of the aggregation dimensions (cross-join) and data values (records under value and status keys) separately. Then, we had to combine the combined aggregation dimensions with the combined data values. Since the json file did not contain any redundancy (i.e. did not story any aggregation dimension more than once), the full table required for modeling had to be created in a relatively complex manner with multiple steps. A glimpse of the original (sub-)structure of the JSON file can be seen in Figure 3-7 below.
 
 <p align="center">
 	<img src="png/api_na_item_structure.PNG" alt="Variable names" height="100"/>  
