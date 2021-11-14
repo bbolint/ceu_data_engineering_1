@@ -143,6 +143,12 @@ The complete workflow in Knime is displayed in Figure 4:
 
 
 #### 3. Joining different parts of JSON file into one final table, and preparing this table for analysis.
+1. Column Appender: join numerical data labels with numerical data
+2. Column Rename: standardize column names
+3. Math Formula: log transformation of independent variables
+4. Pivoting: get data in semi-long format
+5. String replacer: standardize country names
+
 <p align="center">
 	<img src="png/knime_workflow_api_preparaditon.PNG" alt="API preparation" width="400"/>  
 	
@@ -153,6 +159,14 @@ The complete workflow in Knime is displayed in Figure 4:
 
 
 #### 4. Final data preparation and modeling in a loop, outputting beta coefficients in a final table.
+1. Joiner: join dependent & independent variables for modeling
+2. Group Loop Start: start looping through countries
+3. Column Filter, Row Filter: save country name within loop
+4. Linear Regression Learner: fit linear regression for country
+5. Cross Joiner: add country name to obtained coefficients
+6. Loop end: end loop
+7. Pivoting: reformat coefficient data to more digestable format
+
 <p align="center">
 	<img src="png/knime_workflow_join_and_modeling.PNG" alt="Data join and modeling" width="400"/>  
 	
