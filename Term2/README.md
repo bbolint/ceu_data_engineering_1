@@ -1,8 +1,12 @@
+<div align="justify">
+
 # Term 2 Assignment - GDP models for Austria, France, Germany, Hungary and the United Kingdom 
 
 ## Motivation
 
 The purpose of this project is to build a model that allows estimating the impact of the different macroeconomic variables and in 5 countries in the European Union. Based on the expenditure method, we will measure the impact of Government spending, Investment, household consumption and net exports on the countries’ GDP. Using information from the World Bank during the period 1980-2019, we will estimate the equation for GDP using a multiple regression model.
+
+</div>
 
 ## Description
 
