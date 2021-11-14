@@ -2,11 +2,11 @@
 
 # Term 2 Assignment - GDP models for Austria, France, Germany, Hungary and the United Kingdom 
 
-## Motivation
+## Short Overview of Project
 
 The purpose of this project is to build a model that allows estimating the impact of the different macroeconomic variables and in 5 countries in the European Union. Based on the expenditure method, we will measure the impact of Government spending, Investment, household consumption and net exports on the countries’ GDP. Using information from the World Bank during the period 1980-2019, we will estimate the equation for GDP using a multiple regression model.
 
-## Description
+## Description of GDP
 
 One of the most common indicators to measure the economic performance of a country is the gross domestic product (GDP). This indicator seeks to reflect all the income and expenses in goods and services of a country in a period. There are different ways to calculate GDP, for our work we will focus on the expenditure method. This method aggregates the expenditures of the different economic actors (Households, Companies, Government, and external market), and it is formulated in the following way:
 
@@ -19,7 +19,7 @@ G: Public sector expenditures
 X: Exports  
 M: Imports
 
-## Model 
+## Definition of Regression Model
 
 Our model consists of a multiple regression by ordinary least squares (OLS). The dependent variable corresponds to GDP and the independent variables to the expenditure of the sectors described in the previous section (Households, Companies, government, exports and imports). We will use quarterly data extracted from the database of the European statistics office (Eurostat) of Germany, France, UK, Hungary, and Austria. All variables are in millions of euros at current prices. In addition, the variables are seasonally adjusted to eliminate the influence of cyclical phenomena in our analysis.
 
@@ -30,10 +30,12 @@ Our model consists of a multiple regression by ordinary least squares (OLS). The
 	<em>Figure 1. Regression model formula</em>
 </p>
 
-## Source data & data model
-All data we used were in millions of Euros in current prices and were seasonally adjusted. We had two main sources for our data:
+## Source Data
+All data we used were in millions of Euros in current prices and were seasonally adjusted.  
+
+**We had two main sources for our data:**
 	
-#### Source 1: A table containing seasonally adjusted quarterly GDP values per country in a MySQL database (`macroeconomic_db.gdp`). 
+#### 1. A table containing seasonally adjusted quarterly GDP values per country in a MySQL database (`macroeconomic_db.gdp`). 
 This dataset was downloaded using the Data Browser application of Eurostat.  
 (https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en)
 
@@ -44,7 +46,7 @@ This dataset was downloaded using the Data Browser application of Eurostat.
 	<em>Figure 2. Table structure of DB table</em>
 </p>
 
-#### Source 2: An API call for quarterly C, I, G, X and M per country (as defined under "Description") to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request). 
+#### 2. An API call for quarterly C, I, G, X and M per country (as defined under "Description") to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request). 
 The received JSON file was formatted according to the JSON-stat format used by many statistical organizations such as the statistical institutes of Sweden, the UK, Denmark, the World Bank, etc. (https://json-stat.org/format/). Labels of aggregation dimensions and actual data values were stored in separate parts of the received JSON file. We had to combine the labels of the aggregation dimensions (cross-join) and data values (records under value and status keys) separately. Then, we had to combine the combined aggregation dimensions with the combined data values. Since the json file did not contain any redundancy (i.e. did not story any aggregation dimension more than once), the full table required for modeling had to be created in a relatively complex manner with multiple steps. A glimpse of the original (sub-)structure of the JSON file can be seen in Figure 3-7 below.
 
 	
@@ -94,7 +96,7 @@ Then, as a second step, records under the `status` key (containing records with 
 
 Finally, these two sets of data had to be combined to get the labeled set of input variables for the model in a long tabular format.
 
-## Data preparation and regression modeling
+## Knime Workflow: Data Preparation and Fitting the Regression Model
 The complete workflow in Knime is displayed in Figure 4:
 
 <p align="center">
