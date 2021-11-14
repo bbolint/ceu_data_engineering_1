@@ -94,7 +94,7 @@ The received JSON file was formatted according to the JSON-stat format used by m
 	<em>Figure 7. JSON structure of input API call: Values</em>
 </p>
 
-**Converting the JSON data to useful format for modeling, step 3:** Finally, these two sets of data had to be combined to get the labeled set of input variables for the model in a long tabular format.
+**Converting the JSON data to useful format for modeling, step 3:** Finally, sets of data produced by step 1 and step 2 had to be combined to get the labeled set of input variables for the model in a long tabular format.
 
 ## Knime Workflow: Data Preparation and Fitting the Regression Model
 The complete workflow in Knime is displayed in Figure 4:
