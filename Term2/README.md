@@ -52,7 +52,7 @@ All data we used were in millions of Euros in current prices and were seasonally
 <p align="center">
 	<em>Figure 3. JSON structure of input API call: Variable names (C, I, G, X, M)</em>
 </p>  
-
+	
 <p align="center">
 	<b>2.2. Country names were found under the `geo` key in the JSON file.</b>
 </p>  
