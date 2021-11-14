@@ -47,35 +47,43 @@ All data we used were in millions of Euros in current prices and were seasonally
 <p align="center">
 	<img src="png/api_na_item_structure.PNG" alt="Variable names" height="100"/>  
 </p>
+	
 <p align="center">
 	<b>Figure 3. JSON structure of input API call: Variable names (C, I, G, X, M)</b>
-</p>
+</p>  
 
 	- Country names were found under the `geo` key in the JSON file (Figure 4):
+
 <p align="center">
 	<img src="png/api_geo_structure.PNG" alt="Countries" height="100"/>  
 </p>
+
 <p align="center">
 	<b>Figure 4. JSON structure of input API call: Countries (C, I, G, X, M)</b>
-</p>
+</p>  
 	
-	- Time (1995Q1-2021Q3) names were found under the `time` key in the JSON file (Figure 5):
+	- Time (1995Q1-2021Q3) names were found under the `time` key in the JSON file (Figure 5):  
+
 <p align="center">
 	<img src="png/api_time_structure.PNG" alt="Time structure" height="100"/>  
 </p>
+	
 <p align="center">
 	<b>Figure 5. JSON structure of input API call: Time</b>
-</p>
+</p>  
 	
-	- Status was found under the `status` key in the JSON file (Figure 6). The status key contained ':' values for empty records and 'p' values for provisional records. Records found here had to be combined with records under the `value` key in order to have all the data for every aggregation dimension.
+	- Status was found under the `status` key in the JSON file (Figure 6). The status key contained ':' values for empty records and 'p' values for provisional records. Records found here had to be combined with records under the `value` key in order to have all the data for every aggregation dimension.  
+	
 <p align="center">
 	<img src="png/api_status_structure.PNG" alt="Status structure" height="100"/>  
 </p>
+	
 <p align="center">
 	<b>Figure 6. JSON structure of input API call: Status</b>
-</p>
+</p>  
 	
-	- Values were found under the `value` key in the JSON file (Figure 7). All of the non-missing records for the aggregation dimensions were stored under this key in the JSON file:
+	- Values were found under the `value` key in the JSON file (Figure 7). All of the non-missing records for the aggregation dimensions were stored under this key in the JSON file:  
+	
 <p align="center">
 	<img src="png/api_value_structure.PNG" alt="Value structure" height="100"/>  
 </p>
