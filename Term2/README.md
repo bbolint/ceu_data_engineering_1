@@ -31,8 +31,11 @@ Our model consists of a multiple regression by ordinary least squares (OLS). The
 </p>
 
 ## Source data & data model
-All data we used were in millions of Euros in current prices and were seasonally adjusted. We had two main sources for our data:
-1. A table containing seasonally adjusted quarterly GDP values per country in a MySQL database (`macroeconomic_db.gdp`). This dataset was downloaded using the Data Browser application of Eurostat (see: https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en).  
+All data we used were in millions of Euros in current prices and were seasonally adjusted. We had two main sources for our data.
+	
+#### 1. A table containing seasonally adjusted quarterly GDP values per country in a MySQL database (`macroeconomic_db.gdp`). 
+This dataset was downloaded using the Data Browser application of Eurostat.
+(https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en)
 
 <p align="center">
 	<img src="png/db_input_structure.PNG" alt="Table structure of DB table" width="600"/>  
@@ -41,13 +44,11 @@ All data we used were in millions of Euros in current prices and were seasonally
 	<em>Figure 2. Table structure of DB table</em>
 </p>
 
-2. An API call for quarterly C, I, G, X and M per country (as defined under "Description") to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request). The received JSON file was formatted according to the JSON-stat format used by many statistical organizations such as the statistical institutes of Sweden, the UK, Denmark, the World Bank, etc. (https://json-stat.org/format/). Labels of aggregation dimensions and actual data values were stored in separate parts of the received JSON file. We had to combine the labels of the aggregation dimensions (cross-join) and data values (records under value and status keys) separately. Then, we had to combine the combined aggregation dimensions with the combined data values. Since the json file did not contain any redundancy (i.e. did not story any aggregation dimension more than once), the full table required for modeling had to be created in a relatively complex manner with multiple steps. A glimpse of the original (sub-)structure of the JSON file can be seen in Figure 3-7 below.
+#### 2. An API call for quarterly C, I, G, X and M per country (as defined under "Description") to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request). 
+The received JSON file was formatted according to the JSON-stat format used by many statistical organizations such as the statistical institutes of Sweden, the UK, Denmark, the World Bank, etc. (https://json-stat.org/format/). Labels of aggregation dimensions and actual data values were stored in separate parts of the received JSON file. We had to combine the labels of the aggregation dimensions (cross-join) and data values (records under value and status keys) separately. Then, we had to combine the combined aggregation dimensions with the combined data values. Since the json file did not contain any redundancy (i.e. did not story any aggregation dimension more than once), the full table required for modeling had to be created in a relatively complex manner with multiple steps. A glimpse of the original (sub-)structure of the JSON file can be seen in Figure 3-7 below.
 
 	
-First, aggregation dimensions (variable names, country names and time name) had to be cross-joined to have a full list of record labels (Figure 3-5):
-<p align="center">
-	<b>2.1. Variable names were found under the `na_item` key in the JSON file.</b>
-</p>  
+In order to convert the data into usable format for modeling, first the aggregation dimensions (variable names, country names and time name) had to be cross-joined to have a full list of usable record labels (Figure 3-5):
 <p align="center">
 	<img src="png/api_na_item_structure.PNG" alt="Variable names" height="100"/>  
 </p>
@@ -55,9 +56,7 @@ First, aggregation dimensions (variable names, country names and time name) had 
 	<em>Figure 3. JSON structure of input API call: Variable names (C, I, G, X, M)</em>
 </p>  
 	
-<p align="center">
-	<b>2.2. Country names were found under the `geo` key in the JSON file.</b>
-</p>  
+	
 <p align="center">
 	<img src="png/api_geo_structure.PNG" alt="Countries" height="100"/>  
 </p>
@@ -65,9 +64,7 @@ First, aggregation dimensions (variable names, country names and time name) had 
 	<em>Figure 4. JSON structure of input API call: Countries (C, I, G, X, M)</em>
 </p>  
 	
-<p align="center">
-	<b>2.3. Time (1995Q1-2021Q3) names were found under the `time` key in the JSON file.</b>
-</p> 
+	
 <p align="center">
 	<img src="png/api_time_structure.PNG" alt="Time structure" height="100"/>  
 </p>
@@ -75,11 +72,7 @@ First, aggregation dimensions (variable names, country names and time name) had 
 	<em>Figure 5. JSON structure of input API call: Time</em>
 </p>  
 
-Then, records under the `status` key (containing records with empty values), and under the `value` key (containing records with non-empty values) had to be joined, in order to create a full set of records for the aggregation dimensions (Figure 6-7):
-	
-<p align="center">
-	<b>2.4. Status was found under the `status` key in the JSON file. The status key contained ':' values for empty records and 'p' values for provisional records. Records found here had to be combined with records under the `value` key in order to have all the data for every aggregation dimension.</b>
-</p>  
+Then, as a second step, records under the `status` key (containing records with empty values), and under the `value` key (containing records with non-empty values) had to be joined, in order to create a full set of numeric records for each combination of the aggregation dimensions (Figure 6-7):  
 	
 <p align="center">
 	<img src="png/api_status_structure.PNG" alt="Status structure" height="100"/>  
@@ -89,8 +82,7 @@ Then, records under the `status` key (containing records with empty values), and
 	<em>Figure 6. JSON structure of input API call: Status</em>
 </p>  
 	
-<p align="center">
-	<b>2.5. Values were found under the `value` key in the JSON file (Figure 7). All of the non-missing records for the aggregation dimensions were stored under this key in the JSON file:</b>
+	
 </p>  
 	
 <p align="center">
@@ -100,7 +92,7 @@ Then, records under the `status` key (containing records with empty values), and
 	<em>Figure 7. JSON structure of input API call: Values</em>
 </p>
 
-Finally, these two sets of data had to be combined to get the full set of input variables in a long tabular format.
+Finally, these two sets of data had to be combined to get the labeled set of input variables for the model in a long tabular format.
 
 ## Data preparation and regression modeling
 The complete workflow in Knime is displayed in Figure 4:
