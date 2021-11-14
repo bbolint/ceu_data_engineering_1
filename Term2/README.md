@@ -1,6 +1,6 @@
 <div align="justify">
 
-# Term 2 Assignment - GDP models for Austria, France, Germany, Hungary and the United Kingdom 
+# Term 2 Assignment: GDP models for Austria, France, Germany, Hungary and the United Kingdom 
 
 ## Division of Labor & Reproducibility	
 
