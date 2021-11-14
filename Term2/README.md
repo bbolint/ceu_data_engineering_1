@@ -50,7 +50,7 @@ This dataset was downloaded using the Data Browser application of Eurostat.
 The received JSON file was formatted according to the JSON-stat format used by many statistical organizations such as the statistical institutes of Sweden, the UK, Denmark, the World Bank, etc. (https://json-stat.org/format/). Labels of aggregation dimensions and numerical data were stored in separate parts of the received JSON file. We had to cross-join the labels of the aggregation dimensions to receive a full set of numerical data labels. We had to combine records from under the `value` and `status` keys to get the full set of numerical data. Then, we had to combine the full set of numerical data labels with the full set of numerical data. Since the JSON file did not contain any redundancy (i.e. did not story any aggregation dimension more than once), the API part of our dataset had to be processed in a relatively complex manner with multiple steps. A glimpse of the original (sub-)structure of the JSON file can be seen in Figure 3-7 below.
 
 	
-**Converting the JSON data to useful format for modeling, step 1:** In order to convert the data into usable format for modeling, first the aggregation dimensions (variable names, country names and time name) had to be cross-joined to have a full list of usable record labels (Figure 3-5):
+**Converting the JSON data to useful format for modeling, step 1:** In order to convert the data into usable format for modeling, first the aggregation dimensions (variable names, country names and time name) had to be cross-joined to have a full list of usable record labels for numeric values (Figure 3-5):
 <p align="center">
 	<img src="png/api_na_item_structure.PNG" alt="Variable names" height="100"/>  
 </p>
