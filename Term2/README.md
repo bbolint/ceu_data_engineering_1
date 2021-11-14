@@ -4,7 +4,7 @@
 
 ## Division of Labor & Reproducibility	
 
-**Project done by: Natalia Iriarte, Balint Bojko**
+**Project done by: Natalia Iriarte, Balint Bojko**  
 **Natalia:** Project idea, GDP and Regression model description, SQL database creation, Presentation of results and conclusion  
 **Balint:** API calls, Knime Workflow, Technical Documentation
 	
