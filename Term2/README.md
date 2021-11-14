@@ -108,7 +108,15 @@ The complete workflow in Knime is displayed in Figure 4:
 </p>
 
 ### Sections of Knime workflow:
-#### 1. Importing table with gdp data from the relational database
+#### 1. Importing table with gdp data from the relational database (Figure 9)  
+
+1. MySQL Connector, DB Query Reader: connect to mysql server, select everything from `macroeconomic_db.gdp`  
+2. Unpivoting: convert to long format  
+3. Math Formula: log transformation of gdp data  
+4. Column Rename: standardize column names  
+5. String Manipulation, String Replacer: standardize country names  
+6. String Manipulation: standardize format of time column  
+
 <p align="center">
 	<img src="png/knime_workflow_db_input.PNG" alt="DB input" width="600"/>  
 	
@@ -118,6 +126,13 @@ The complete workflow in Knime is displayed in Figure 4:
 </p>
 
 #### 2. Calling Eurostat REST API, importing and formatting different parts of the JSON file.
+
+1. GET Request: get JSON file from Eurostat REST API
+2. JSON Path (multiple paths): locate paths of interest to export content displayed in Figure 3-7
+3. Column Filter, Table to JSON, JSON to Table, Transpose (multiple paths): get content of JSON in tabular format
+4. String Replacer, Row Filter, Concatenate, RowID, Column Auto Type Cast, String to Number, Sorter: combine values under `status` and `value` keys, reformat and sort
+5. Cross Joiner, Cross Joiner: cross join labels of aggregation dimensions (i.e. labels under `na_item`, `geo` and `time` keys)
+
 <p align="center">
 	<img src="png/knime_workflow_api_input.PNG" alt="API input" width="600"/>  
 	
