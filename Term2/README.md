@@ -43,31 +43,32 @@ All data we used were in millions of Euros in current prices and were seasonally
 
 2. An API call for quarterly C, I, G, X and M per country (as defined under "Description") to the Eurostat servers using their REST API (https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request). The received JSON file was formatted according to the JSON-stat format used by many statistical organizations such as the statistical institutes of Sweden, the UK, Denmark, the World Bank, etc. (https://json-stat.org/format/). Labels of aggregation dimensions and actual data values were stored in separate parts of the received JSON file. We had to combine the labels of the aggregation dimensions (cross-join) and data values (records under value and status keys) separately. Then, we had to combine the combined aggregation dimensions with the combined data values. Since the json file did not contain any redundancy (i.e. did not story any aggregation dimension more than once), the full table required for modeling had to be created in a relatively complex manner with multiple steps. A glimpse of the original (sub-)structure of the JSON file can be seen in Figure 3-7 below.
 
-**Variable names were found under the `na_item` key in the JSON file (Figure 3):**
+<p align="center">
+	<b>Variable names were found under the `na_item` key in the JSON file (Figure 3):</b>
+</p>  
 <p align="center">
 	<img src="png/api_na_item_structure.PNG" alt="Variable names" height="100"/>  
 </p>
-	
 <p align="center">
 	<b>Figure 3. JSON structure of input API call: Variable names (C, I, G, X, M)</b>
 </p>  
 
-**Country names were found under the `geo` key in the JSON file (Figure 4):**
-
+<p align="center">
+	<b>Country names were found under the `geo` key in the JSON file (Figure 4):</b>
+</p>  
 <p align="center">
 	<img src="png/api_geo_structure.PNG" alt="Countries" height="100"/>  
 </p>
-
 <p align="center">
 	<b>Figure 4. JSON structure of input API call: Countries (C, I, G, X, M)</b>
 </p>  
 	
-**Time (1995Q1-2021Q3) names were found under the `time` key in the JSON file (Figure 5): ** 
-
+<p align="center">
+	<b>Time (1995Q1-2021Q3) names were found under the `time` key in the JSON file (Figure 5):</b>
+</p> 
 <p align="center">
 	<img src="png/api_time_structure.PNG" alt="Time structure" height="100"/>  
 </p>
-	
 <p align="center">
 	<b>Figure 5. JSON structure of input API call: Time</b>
 </p>  
