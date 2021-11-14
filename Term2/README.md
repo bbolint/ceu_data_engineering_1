@@ -52,7 +52,7 @@ All data we used were in millions of Euros in current prices and were seasonally
 	<b>Figure 3. JSON structure of input API call: Variable names (C, I, G, X, M)</b>
 </p>  
 
-- Country names were found under the `geo` key in the JSON file (Figure 4):
+	- Country names were found under the `geo` key in the JSON file (Figure 4):
 
 <p align="center">
 	<img src="png/api_geo_structure.PNG" alt="Countries" height="100"/>  
@@ -72,7 +72,7 @@ All data we used were in millions of Euros in current prices and were seasonally
 	<b>Figure 5. JSON structure of input API call: Time</b>
 </p>  
 	
-	- Status was found under the `status` key in the JSON file (Figure 6). The status key contained ':' values for empty records and 'p' values for provisional records. Records found here had to be combined with records under the `value` key in order to have all the data for every aggregation dimension.  
+	* Status was found under the `status` key in the JSON file (Figure 6). The status key contained ':' values for empty records and 'p' values for provisional records. Records found here had to be combined with records under the `value` key in order to have all the data for every aggregation dimension.  
 	
 <p align="center">
 	<img src="png/api_status_structure.PNG" alt="Status structure" height="100"/>  
