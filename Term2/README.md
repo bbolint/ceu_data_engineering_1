@@ -2,10 +2,17 @@
 
 # Term 2 Assignment - GDP models for Austria, France, Germany, Hungary and the United Kingdom 
 
-Project done by: Natalia Iriarte, Balint Bojko 
+## Division of Labor & Reproducibility	
 
-Natalia: Project idea, GDP and Regression model description, SQL database creation, Presentation of results and conclusion  
-Balint: API calls, Knime Workflow, Technical Documentation
+**Project done by: Natalia Iriarte, Balint Bojko**
+**Natalia:** Project idea, GDP and Regression model description, SQL database creation, Presentation of results and conclusion  
+**Balint:** API calls, Knime Workflow, Technical Documentation
+	
+How to Reproduce the Project
+1. Install software: MySQL, MySQL WorkBench, Git, Knime
+2. Start MySQL server
+3. Create Operational Layer: Copy the .csv file (`./csv/gdp.csv`) to the upload folder within MySQL software folder. Run sql script (`./sql/Term1_project`).
+4. Open and Run Knime Workflow (`./knime/knime_workflow.knwf`)
 	
 ## Short Overview of Project
 
