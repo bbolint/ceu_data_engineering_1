@@ -12,7 +12,9 @@ How to Reproduce the Project
 1. Install software: MySQL, MySQL WorkBench, Git, Knime
 2. Start MySQL server
 3. Create Operational Layer: Copy the .csv file (`./csv/gdp.csv`) to the upload folder within MySQL software folder. Run sql script (`./sql/Term1_project`).
-4. Open and Run Knime Workflow (`./knime/knime_workflow.knwf`)
+4. Open Knime Workflow (`./knime/knime_workflow.knwf`)
+5. Change authentication (server address, login name & pw) for the MySQL Connector node so that it can access your MySQL server
+5. Run Knime Workflow
 	
 ## Short Overview of Project
 
