@@ -18,7 +18,7 @@ How to Reproduce the Project
 	
 ## Short Overview of Project
 
-The purpose of this project is to build a model that allows estimating the impact of the different macroeconomic variables and in 5 countries in the European Union. Based on the expenditure method, we will measure the impact of Government spending, Investment, household consumption and net exports on the countries’ GDP. Using information from the World Bank during the period 1980-2019, we will estimate the equation for GDP using a multiple regression model.
+The purpose of this project is to build a model that allows estimating the impact of the different macroeconomic variables and in 5 countries in the European Union. Based on the expenditure method, we will measure the impact of Government spending, Investment, household consumption and net exports on the countries’ GDP. Using information from Eurostat during the period 1995-2021, we will estimate the equation for GDP using a multiple regression model.
 
 ## Description of GDP
 
