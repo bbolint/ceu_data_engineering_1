@@ -192,7 +192,7 @@ The complete workflow in Knime is displayed in Figure 4:
 
 
 ## Results
-The result of the regressions (Figure 13) shows us that the variable with the greatest impact on GDP in the 5 countries is household spending. The UK economy is especially sensitive to this ruble as a 1% increase in household spending would imply a 0.66% increase in GDP. In the case of Hungary, the coefficients show that GDP is significantly more sensitive to the external sector than the rest of the countries. A 1% increase in exports would increase GDP by 0.59%, otherwise a 1% increase in Hungary's imports would decrease GDP by 0.5%. The coefficient of government spending in the German economy indicates that the country's GDP has very low responses to expansive fiscal policies.
+The result of the regressions (Figure 13) shows us that the variable with the greatest impact on GDP in the 5 countries is household spending. 
 
 <p align="center">
 	<img src="png/beta_coefficients_regression_models.PNG" alt="Beta coefficients" width="800"/>  
@@ -201,5 +201,8 @@ The result of the regressions (Figure 13) shows us that the variable with the gr
 <p align="center">
 	<em>Figure 13. Beta coefficients from regression models.</em>
 </p>
+
+The UK economy is especially sensitive to this ruble as a 1% increase in household spending would imply a 0.66% increase in GDP. In the case of Hungary, the coefficients show that GDP is significantly more sensitive to the external sector than the rest of the countries. A 1% increase in exports would increase GDP by 0.59%, otherwise a 1% increase in Hungary's imports would decrease GDP by 0.5%. The coefficient of government spending in the German economy indicates that the country's GDP has very low responses to expansive fiscal policies.
+
 
 </div>
