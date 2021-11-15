@@ -193,7 +193,7 @@ The complete workflow in Knime is displayed in Figure 4:
 
 ## Results
 <p align="center">
-	<img src="png/beta_coefficients_regression_models.PNG" alt="Beta coefficients" width="400"/>  
+	<img src="png/beta_coefficients_regression_models.PNG" alt="Beta coefficients" width="800"/>  
 	
 </p>
 <p align="center">
